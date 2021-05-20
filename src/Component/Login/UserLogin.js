@@ -40,10 +40,10 @@ const UserLogin = () => {
 <form onSubmit={handleSubmit(onSubmit)}>
 
 <Form.Group controlId="formBasicPassword">
-       {passwordValid ? <Form.Control style={{color: "green"}} type="password" {...register('password')} onChange={passwordChange} placeholder="Password" required />
-       : 
-       <Form.Control style={{color: "red"}} type="password" {...register('password')} onChange={passwordChange} placeholder="Password" required />}
+   <Form.Control style={passwordValid ? {color: "green"}: {color: "red"}} type="password" {...register('password')} onChange={passwordChange} placeholder="Password" required />
+   {passwordValid ? <p>password is valid</p> : <p>your password is not valid</p> }
        </Form.Group>
+       
        {errors.lastName && <p>Password is required.</p>}
 
 {errors.lastName && <p>Email is required.</p>}
