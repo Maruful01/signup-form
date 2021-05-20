@@ -4,8 +4,6 @@ import { useForm } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import UserDetails from '../UserDetails/UserDetails';
-import { useHistory, useLocation } from 'react-router-dom';
 
 const UserLogin = () => {
 
@@ -13,21 +11,6 @@ const UserLogin = () => {
      
     const [passwordValid, setPasswordValid] = useState(false);
 
-    // let isPassValid;
-    const onChanged = e => {
-        console.log (e.target.value);
-        // isPassValid = loggedInUser.password === e.target.value;
-
-        // if (isPassValid) {
-        //     setPasswordValid (true);
-        // }
-        // else {
-        //     setPasswordValid (false);
-        // }
-    }
-
-
-    
     const {
         register,
         handleSubmit,
@@ -37,11 +20,34 @@ const UserLogin = () => {
 
     };
 
+
+    let passwordIsValid ;
+      const passwordChange = e => {
+
+        passwordIsValid = loggedInUser.password == e.target.value;
+        if ( passwordIsValid ) {
+            setPasswordValid (true);
+        }
+        else {
+            setPasswordValid (false);
+        }
+        console.log (e.target.value)
+  
+      }
+
     return (
         <div>
-<Form onSubmit={handleSubmit(onSubmit)}>
-<Form.Control type="password" onChange={onChanged} {...register('password')} placeholder="Password" required />
-<br />
+<form onSubmit={handleSubmit(onSubmit)}>
+
+<Form.Group controlId="formBasicPassword">
+       {passwordValid ? <Form.Control style={{color: "green"}} type="password" {...register('password')} onChange={passwordChange} placeholder="Password" required />
+       : 
+       <Form.Control style={{color: "red"}} type="password" {...register('password')} onChange={passwordChange} placeholder="Password" required />}
+       </Form.Group>
+       {errors.lastName && <p>Password is required.</p>}
+
+{errors.lastName && <p>Email is required.</p>}
+
 {passwordValid ?
     <Link to="/details"> 
     <Button type="address" {...register('address')} variant="primary" type="submit">
@@ -49,14 +55,13 @@ const UserLogin = () => {
     </Button>
     </Link>
     :
-    <Link to="/details"> 
+
     <Button type="address" {...register('address')} variant="primary" type="submit">
      Login
     </Button>
-    </Link>
+
 }
-<UserDetails></UserDetails> 
-</Form>
+</form>
 <Link to="/signup">Create Account</Link>
         </div>
     );
